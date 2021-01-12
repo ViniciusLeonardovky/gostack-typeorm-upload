@@ -74,6 +74,7 @@ transactionsRouter.post(
 
       return response.status(200).json(transactions);
     } catch (err) {
+      console.log(err);
       return response
         .status(400)
         .json({ message: err.message, status: 'error' });

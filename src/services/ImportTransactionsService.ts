@@ -25,6 +25,7 @@ class ImportTransactionsService {
       from_line: 2,
       trim: true,
       skip_empty_lines: true,
+      delimiter: ';',
     });
 
     const parseCSV = contactsReadStream.pipe(parses);
