@@ -1,13 +1,11 @@
-import { getCustomRepository, getRepository, In } from 'typeorm';
+import { getRepository, In } from 'typeorm';
 import csvParse from 'csv-parse';
 import fs from 'fs';
 
 import Transaction from '@modules/transactions/infra/typeorm/entities/Transaction';
 import Category from '@modules/transactions/infra/typeorm/entities/Category';
 
-import TransactionsRepository from '@modules/transactions/repositories/TransactionsRepository';
-
-interface CSVTransaction {
+interface ICSVTransaction {
   title: string;
   type: 'income' | 'outcome';
   value: number;
@@ -16,7 +14,7 @@ interface CSVTransaction {
 
 class ImportTransactionsService {
   async execute(filePath: string): Promise<Transaction[]> {
-    const transactionRepository = getCustomRepository(TransactionsRepository);
+    const transactionsRepository = getRepository(Transaction);
     const categoriesRepository = getRepository(Category);
 
     const contactsReadStream = fs.createReadStream(filePath);
@@ -30,7 +28,7 @@ class ImportTransactionsService {
 
     const parseCSV = contactsReadStream.pipe(parses);
 
-    const transactions: CSVTransaction[] = [];
+    const transactions: ICSVTransaction[] = [];
     const categories: string[] = [];
 
     parseCSV.on('data', async line => {
@@ -71,7 +69,7 @@ class ImportTransactionsService {
 
     const finalCategories = [...newCategories, ...existentCategories];
 
-    const createdTransactions = transactionRepository.create(
+    const createdTransactions = transactionsRepository.create(
       transactions.map(transaction => ({
         title: transaction.title,
         type: transaction.type,
@@ -82,7 +80,7 @@ class ImportTransactionsService {
       })),
     );
 
-    await transactionRepository.save(createdTransactions);
+    await transactionsRepository.save(createdTransactions);
 
     fs.promises.unlink(filePath);
 

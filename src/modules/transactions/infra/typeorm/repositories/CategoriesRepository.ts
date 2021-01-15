@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, In, Repository } from 'typeorm';
 
 import Category from '@modules/transactions/infra/typeorm/entities/Category';
 
@@ -16,6 +16,16 @@ class CategoriesRepository implements ICategoryTransactionsRepository {
     const category = await this.ormRepository.findOne({ where: { title } });
 
     return category || undefined;
+  }
+
+  public async findCategories(categories: string[]): Promise<Category[]> {
+    const existentCategories = await this.ormRepository.find({
+      where: {
+        title: In(categories),
+      },
+    });
+
+    return existentCategories;
   }
 
   public async create({ title }: ICreateCategoryDTO): Promise<Category> {

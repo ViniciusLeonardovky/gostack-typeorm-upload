@@ -11,12 +11,11 @@ import ImportTransactionsService from '@modules/transactions/services/ImportTran
 import ListTransactionsService from '@modules/transactions/services/ListTransactionsService';
 
 const transactionsRouter = Router();
-const transactionsRepository = new TransactionsRepository();
-const categoriesRepository = new CategoriesRepository();
 
 const upload = multer(uploadConfig);
 
 transactionsRouter.get('/', async (request, response) => {
+  const transactionsRepository = new TransactionsRepository();
   const listTransactions = new ListTransactionsService(transactionsRepository);
 
   const transactions = await listTransactions.execute();
@@ -27,6 +26,9 @@ transactionsRouter.get('/', async (request, response) => {
 transactionsRouter.post('/', async (request, response) => {
   try {
     const { title, value, type, category } = request.body;
+
+    const transactionsRepository = new TransactionsRepository();
+    const categoriesRepository = new CategoriesRepository();
 
     const createTransaction = new CreateTransactionService(
       transactionsRepository,
@@ -50,7 +52,11 @@ transactionsRouter.delete('/:id', async (request, response) => {
   try {
     const { id } = request.params;
 
-    const deleteTransactionService = new DeleteTransactionService();
+    const transactionsRepository = new TransactionsRepository();
+
+    const deleteTransactionService = new DeleteTransactionService(
+      transactionsRepository,
+    );
 
     await deleteTransactionService.execute(id);
 
