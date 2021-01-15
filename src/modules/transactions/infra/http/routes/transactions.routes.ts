@@ -1,38 +1,37 @@
 import { Router } from 'express';
-import { getCustomRepository } from 'typeorm';
 import multer from 'multer';
 
-import uploadConfig from '../config/upload';
+import uploadConfig from '@config/upload';
 
-import TransactionsRepository from '../repositories/TransactionsRepository';
-import CreateTransactionService from '../services/CreateTransactionService';
-import DeleteTransactionService from '../services/DeleteTransactionService';
-import ImportTransactionsService from '../services/ImportTransactionsService';
+import TransactionsRepository from '@modules/transactions/infra/typeorm/repositories/TransactionsRepository';
+import CategoriesRepository from '@modules/transactions/infra/typeorm/repositories/CategoriesRepository';
+import CreateTransactionService from '@modules/transactions/services/CreateTransactionService';
+import DeleteTransactionService from '@modules/transactions/services/DeleteTransactionService';
+import ImportTransactionsService from '@modules/transactions/services/ImportTransactionsService';
+import ListTransactionsService from '@modules/transactions/services/ListTransactionsService';
 
 const transactionsRouter = Router();
+const transactionsRepository = new TransactionsRepository();
+const categoriesRepository = new CategoriesRepository();
 
 const upload = multer(uploadConfig);
 
 transactionsRouter.get('/', async (request, response) => {
-  try {
-    const transactionsRepository = getCustomRepository(TransactionsRepository);
+  const listTransactions = new ListTransactionsService(transactionsRepository);
 
-    const transactions = await transactionsRepository.find();
-    const balance = await transactionsRepository.getBalance();
+  const transactions = await listTransactions.execute();
 
-    const responseTransactions = { transactions, balance };
-
-    return response.status(200).json(responseTransactions);
-  } catch (err) {
-    return response.status(400).json({ error: err.message });
-  }
+  return response.status(200).json(transactions);
 });
 
 transactionsRouter.post('/', async (request, response) => {
   try {
     const { title, value, type, category } = request.body;
 
-    const createTransaction = new CreateTransactionService();
+    const createTransaction = new CreateTransactionService(
+      transactionsRepository,
+      categoriesRepository,
+    );
 
     const transaction = await createTransaction.execute({
       title,

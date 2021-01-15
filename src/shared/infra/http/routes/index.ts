@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import transactionsRouter from './transactions.routes';
+import transactionsRouter from '@modules/transactions/infra/http/routes/transactions.routes';
 
 const routes = Router();
 

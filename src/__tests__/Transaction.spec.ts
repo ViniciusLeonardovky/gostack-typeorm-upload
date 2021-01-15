@@ -1,23 +1,23 @@
 import request from 'supertest';
 import path from 'path';
 import { Connection, getRepository, getConnection } from 'typeorm';
-import createConnection from '../database';
+import createConnection from '@shared/infra/typeorm';
 
-import Transaction from '../models/Transaction';
-import Category from '../models/Category';
+import Transaction from '@modules/transactions/infra/typeorm/entities/Transaction';
+import Category from '@modules/transactions/infra/typeorm/entities/Category';
 
-import app from '../app';
+import app from '../shared/infra/http/app';
 
 let connection: Connection;
 
 describe('Transaction', () => {
   beforeAll(async () => {
     connection = await createConnection('test-connection');
-    
+
     await connection.query('DROP TABLE IF EXISTS transactions');
     await connection.query('DROP TABLE IF EXISTS categories');
     await connection.query('DROP TABLE IF EXISTS migrations');
-    
+
     await connection.runMigrations();
   });
 
