@@ -6,6 +6,8 @@ import {
   IBalance,
 } from '@modules/transactions/repositories/ITransactionRepository';
 import ICreateTransactionDTO from '@modules/transactions/dtos/ICreateTransactionDTO';
+import IDeleteTransactionDTO from '@modules/transactions/dtos/IDeleteTransactionDTO';
+import IFindTransactionDTO from '@modules/transactions/dtos/IFindTransactionDTO';
 
 class TransactionsRepository implements ITransactionRepository {
   private ormRepository: Repository<Transaction>;
@@ -63,6 +65,18 @@ class TransactionsRepository implements ITransactionRepository {
     const transactions = await this.ormRepository.find();
 
     return transactions;
+  }
+
+  public async deleteTransaction({ id }: IDeleteTransactionDTO): Promise<void> {
+    await this.ormRepository.delete(id);
+  }
+
+  public async findTransaction({
+    id,
+  }: IFindTransactionDTO): Promise<Transaction | undefined> {
+    const transaction = await this.ormRepository.findOne(id);
+
+    return transaction;
   }
 }
 
