@@ -1,3 +1,3 @@
-export default interface IDeleteTransactionDTO {
+export interface IDeleteTransactionDTO {
   id: string;
 }

@@ -1,7 +1,7 @@
-import Transaction from '@modules/transactions/infra/typeorm/entities/Transaction';
-import ICreateTransactionDTO from '@modules/transactions/dtos/ICreateTransactionDTO';
-import IDeleteTransactionDTO from '@modules/transactions/dtos/IDeleteTransactionDTO';
-import IFindTransactionDTO from '@modules/transactions/dtos/IFindTransactionDTO';
+import { Transaction } from '@modules/transactions/infra/typeorm/entities/Transaction';
+import { ICreateTransactionDTO } from '@modules/transactions/dtos/ICreateTransactionDTO';
+import { IDeleteTransactionDTO } from '@modules/transactions/dtos/IDeleteTransactionDTO';
+import { IFindTransactionDTO } from '@modules/transactions/dtos/IFindTransactionDTO';
 
 export interface IBalance {
   income: number;

@@ -1,7 +1,7 @@
-import AppError from '@shared/errors/AppError';
+import { AppError } from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 
-import Transaction from '@modules/transactions/infra/typeorm/entities/Transaction';
+import { Transaction } from '@modules/transactions/infra/typeorm/entities/Transaction';
 import { ITransactionsRepository } from '@modules/transactions/repositories/ITransactionsRepository';
 import { ICategoryTransactionsRepository } from '@modules/transactions/repositories/ICategoryTransactionsRepository';
 
@@ -13,7 +13,7 @@ interface IRequest {
 }
 
 @injectable()
-class CreateTransactionService {
+export class CreateTransactionService {
   constructor(
     @inject('TransactionsRepository')
     private transactionsRepository: ITransactionsRepository,
@@ -52,5 +52,3 @@ class CreateTransactionService {
     return transaction;
   }
 }
-
-export default CreateTransactionService;

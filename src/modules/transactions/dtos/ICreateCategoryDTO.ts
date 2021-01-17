@@ -1,3 +1,3 @@
-export default interface ICreateCategoryDTO {
+export interface ICreateCategoryDTO {
   title: string;
 }

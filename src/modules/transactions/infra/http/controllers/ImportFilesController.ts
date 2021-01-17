@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import ImportTransactionsService from '@modules/transactions/services/ImportTransactionsService';
+import { ImportTransactionsService } from '@modules/transactions/services/ImportTransactionsService';
 
 export class ImportFilesController {
   public async create(request: Request, response: Response): Promise<Response> {

@@ -1,5 +1,5 @@
-import Category from '@modules/transactions/infra/typeorm/entities/Category';
-import ICreateCategoryDTO from '@modules/transactions/dtos/ICreateCategoryDTO';
+import { Category } from '@modules/transactions/infra/typeorm/entities/Category';
+import { ICreateCategoryDTO } from '@modules/transactions/dtos/ICreateCategoryDTO';
 
 export interface ICategoryTransactionsRepository {
   create(data: ICreateCategoryDTO): Promise<Category>;

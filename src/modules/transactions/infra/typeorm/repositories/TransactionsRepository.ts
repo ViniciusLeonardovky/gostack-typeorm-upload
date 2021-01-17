@@ -1,15 +1,15 @@
 import { getRepository, Repository } from 'typeorm';
 
-import Transaction from '@modules/transactions/infra/typeorm/entities/Transaction';
+import { Transaction } from '@modules/transactions/infra/typeorm/entities/Transaction';
 import {
   ITransactionsRepository,
   IBalance,
 } from '@modules/transactions/repositories/ITransactionsRepository';
-import ICreateTransactionDTO from '@modules/transactions/dtos/ICreateTransactionDTO';
-import IDeleteTransactionDTO from '@modules/transactions/dtos/IDeleteTransactionDTO';
-import IFindTransactionDTO from '@modules/transactions/dtos/IFindTransactionDTO';
+import { ICreateTransactionDTO } from '@modules/transactions/dtos/ICreateTransactionDTO';
+import { IDeleteTransactionDTO } from '@modules/transactions/dtos/IDeleteTransactionDTO';
+import { IFindTransactionDTO } from '@modules/transactions/dtos/IFindTransactionDTO';
 
-class TransactionsRepository implements ITransactionsRepository {
+export class TransactionsRepository implements ITransactionsRepository {
   private ormRepository: Repository<Transaction>;
 
   constructor() {
@@ -79,5 +79,3 @@ class TransactionsRepository implements ITransactionsRepository {
     return transaction;
   }
 }
-
-export default TransactionsRepository;

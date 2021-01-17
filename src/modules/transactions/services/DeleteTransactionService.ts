@@ -1,10 +1,10 @@
-import AppError from '@shared/errors/AppError';
+import { AppError } from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 
 import { ITransactionsRepository } from '@modules/transactions/repositories/ITransactionsRepository';
 
 @injectable()
-class DeleteTransactionService {
+export class DeleteTransactionService {
   constructor(
     @inject('TransactionsRepository')
     private transactionsRepository: ITransactionsRepository,
@@ -22,5 +22,3 @@ class DeleteTransactionService {
     await this.transactionsRepository.deleteTransaction({ id });
   }
 }
-
-export default DeleteTransactionService;

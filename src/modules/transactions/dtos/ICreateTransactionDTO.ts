@@ -1,4 +1,4 @@
-export default interface ICreateTransactionDTO {
+export interface ICreateTransactionDTO {
   title: string;
   value: number;
   type: 'income' | 'outcome';

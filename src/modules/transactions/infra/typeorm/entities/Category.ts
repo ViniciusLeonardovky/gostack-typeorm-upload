@@ -7,10 +7,10 @@ import {
   OneToMany,
 } from 'typeorm';
 
-import Transaction from './Transaction';
+import { Transaction } from './Transaction';
 
 @Entity('categories')
-class Category {
+export class Category {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -26,5 +26,3 @@ class Category {
   @UpdateDateColumn()
   updated_at: Date;
 }
-
-export default Category;

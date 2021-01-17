@@ -1,5 +1,5 @@
 import { injectable, inject } from 'tsyringe';
-import Transaction from '@modules/transactions/infra/typeorm/entities/Transaction';
+import { Transaction } from '@modules/transactions/infra/typeorm/entities/Transaction';
 import {
   IBalance,
   ITransactionsRepository,
@@ -10,7 +10,7 @@ interface IResponse {
   balance: IBalance;
 }
 @injectable()
-class ListTransactionsService {
+export class ListTransactionsService {
   constructor(
     @inject('TransactionsRepository')
     private transactionsRepository: ITransactionsRepository,
@@ -25,5 +25,3 @@ class ListTransactionsService {
     return responseTransactions;
   }
 }
-
-export default ListTransactionsService;

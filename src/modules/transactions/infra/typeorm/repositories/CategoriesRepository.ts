@@ -1,11 +1,11 @@
 import { getRepository, In, Repository } from 'typeorm';
 
-import Category from '@modules/transactions/infra/typeorm/entities/Category';
+import { Category } from '@modules/transactions/infra/typeorm/entities/Category';
 
 import { ICategoryTransactionsRepository } from '@modules/transactions/repositories/ICategoryTransactionsRepository';
-import ICreateCategoryDTO from '@modules/transactions/dtos/ICreateCategoryDTO';
+import { ICreateCategoryDTO } from '@modules/transactions/dtos/ICreateCategoryDTO';
 
-class CategoriesRepository implements ICategoryTransactionsRepository {
+export class CategoriesRepository implements ICategoryTransactionsRepository {
   private ormRepository: Repository<Category>;
 
   constructor() {
@@ -36,5 +36,3 @@ class CategoriesRepository implements ICategoryTransactionsRepository {
     return category;
   }
 }
-
-export default CategoriesRepository;

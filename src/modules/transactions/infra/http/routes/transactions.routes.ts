@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import multer from 'multer';
-import uploadConfig from '@config/upload';
+import { uploadConfig } from '@config/upload';
 
 import { TransactionsController } from '@modules/transactions/infra/http/controllers/TransactionsController';
 import { ImportFilesController } from '@modules/transactions/infra/http/controllers/ImportFilesController';
 
-const transactionsRouter = Router();
+export const transactionsRouter = Router();
 const upload = multer(uploadConfig);
 
 const transactionsController = new TransactionsController();
@@ -22,5 +22,3 @@ transactionsRouter.post(
   upload.single('file'),
   importFilesController.create,
 );
-
-export default transactionsRouter;

@@ -1,3 +1,3 @@
-export default interface IFindTransactionDTO {
+export interface IFindTransactionDTO {
   id: string;
 }

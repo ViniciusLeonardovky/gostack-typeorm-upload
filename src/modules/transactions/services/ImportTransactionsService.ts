@@ -2,8 +2,8 @@ import { getRepository, In } from 'typeorm';
 import csvParse from 'csv-parse';
 import fs from 'fs';
 
-import Transaction from '@modules/transactions/infra/typeorm/entities/Transaction';
-import Category from '@modules/transactions/infra/typeorm/entities/Category';
+import { Transaction } from '@modules/transactions/infra/typeorm/entities/Transaction';
+import { Category } from '@modules/transactions/infra/typeorm/entities/Category';
 
 interface ICSVTransaction {
   title: string;
@@ -12,7 +12,7 @@ interface ICSVTransaction {
   category: string;
 }
 
-class ImportTransactionsService {
+export class ImportTransactionsService {
   async execute(filePath: string): Promise<Transaction[]> {
     const transactionsRepository = getRepository(Transaction);
     const categoriesRepository = getRepository(Category);
@@ -87,5 +87,3 @@ class ImportTransactionsService {
     return createdTransactions;
   }
 }
-
-export default ImportTransactionsService;

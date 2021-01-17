@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import CreateTransactionService from '@modules/transactions/services/CreateTransactionService';
-import DeleteTransactionService from '@modules/transactions/services/DeleteTransactionService';
-import ListTransactionsService from '@modules/transactions/services/ListTransactionsService';
+import { CreateTransactionService } from '@modules/transactions/services/CreateTransactionService';
+import { DeleteTransactionService } from '@modules/transactions/services/DeleteTransactionService';
+import { ListTransactionsService } from '@modules/transactions/services/ListTransactionsService';
 
 export class TransactionsController {
   public async index(request: Request, response: Response): Promise<Response> {
