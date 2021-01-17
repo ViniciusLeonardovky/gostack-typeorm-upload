@@ -1,10 +1,9 @@
 import { Router } from 'express';
+import { container } from 'tsyringe';
 import multer from 'multer';
 
 import uploadConfig from '@config/upload';
 
-import TransactionsRepository from '@modules/transactions/infra/typeorm/repositories/TransactionsRepository';
-import CategoriesRepository from '@modules/transactions/infra/typeorm/repositories/CategoriesRepository';
 import CreateTransactionService from '@modules/transactions/services/CreateTransactionService';
 import DeleteTransactionService from '@modules/transactions/services/DeleteTransactionService';
 import ImportTransactionsService from '@modules/transactions/services/ImportTransactionsService';
@@ -15,8 +14,7 @@ const transactionsRouter = Router();
 const upload = multer(uploadConfig);
 
 transactionsRouter.get('/', async (request, response) => {
-  const transactionsRepository = new TransactionsRepository();
-  const listTransactions = new ListTransactionsService(transactionsRepository);
+  const listTransactions = container.resolve(ListTransactionsService);
 
   const transactions = await listTransactions.execute();
 
@@ -27,13 +25,7 @@ transactionsRouter.post('/', async (request, response) => {
   try {
     const { title, value, type, category } = request.body;
 
-    const transactionsRepository = new TransactionsRepository();
-    const categoriesRepository = new CategoriesRepository();
-
-    const createTransaction = new CreateTransactionService(
-      transactionsRepository,
-      categoriesRepository,
-    );
+    const createTransaction = container.resolve(CreateTransactionService);
 
     const transaction = await createTransaction.execute({
       title,
@@ -52,10 +44,8 @@ transactionsRouter.delete('/:id', async (request, response) => {
   try {
     const { id } = request.params;
 
-    const transactionsRepository = new TransactionsRepository();
-
-    const deleteTransactionService = new DeleteTransactionService(
-      transactionsRepository,
+    const deleteTransactionService = container.resolve(
+      DeleteTransactionService,
     );
 
     await deleteTransactionService.execute(id);

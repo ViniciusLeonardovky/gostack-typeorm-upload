@@ -1,9 +1,14 @@
 import AppError from '@shared/errors/AppError';
+import { injectable, inject } from 'tsyringe';
 
-import { ITransactionRepository } from '@modules/transactions/repositories/ITransactionRepository';
+import { ITransactionsRepository } from '@modules/transactions/repositories/ITransactionsRepository';
 
+@injectable()
 class DeleteTransactionService {
-  constructor(private transactionsRepository: ITransactionRepository) {}
+  constructor(
+    @inject('TransactionsRepository')
+    private transactionsRepository: ITransactionsRepository,
+  ) {}
 
   public async execute(id: string): Promise<void> {
     const transactionExists = await this.transactionsRepository.findTransaction(

@@ -2,14 +2,14 @@ import { getRepository, Repository } from 'typeorm';
 
 import Transaction from '@modules/transactions/infra/typeorm/entities/Transaction';
 import {
-  ITransactionRepository,
+  ITransactionsRepository,
   IBalance,
-} from '@modules/transactions/repositories/ITransactionRepository';
+} from '@modules/transactions/repositories/ITransactionsRepository';
 import ICreateTransactionDTO from '@modules/transactions/dtos/ICreateTransactionDTO';
 import IDeleteTransactionDTO from '@modules/transactions/dtos/IDeleteTransactionDTO';
 import IFindTransactionDTO from '@modules/transactions/dtos/IFindTransactionDTO';
 
-class TransactionsRepository implements ITransactionRepository {
+class TransactionsRepository implements ITransactionsRepository {
   private ormRepository: Repository<Transaction>;
 
   constructor() {

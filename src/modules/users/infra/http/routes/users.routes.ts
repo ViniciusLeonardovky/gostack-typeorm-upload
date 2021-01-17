@@ -1,7 +1,6 @@
 import { Router } from 'express';
+import { container } from 'tsyringe';
 
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
-import BCryptHashProvider from '@modules/users/providers/HashProvider/implementations/BCryptHashProvider';
 import CreateUserService from '@modules/users/services/CreateUserService';
 
 const usersRouter = Router();
@@ -10,13 +9,7 @@ usersRouter.post('/', async (request, response) => {
   try {
     const { name, email, password } = request.body;
 
-    const usersRepository = new UsersRepository();
-    const bCryptHashProvider = new BCryptHashProvider();
-
-    const createUser = new CreateUserService(
-      usersRepository,
-      bCryptHashProvider,
-    );
+    const createUser = container.resolve(CreateUserService);
 
     const user = await createUser.execute({
       name,

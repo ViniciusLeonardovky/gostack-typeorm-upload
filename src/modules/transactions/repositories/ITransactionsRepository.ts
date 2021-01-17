@@ -9,7 +9,7 @@ export interface IBalance {
   total: number;
 }
 
-export interface ITransactionRepository {
+export interface ITransactionsRepository {
   create(data: ICreateTransactionDTO): Promise<Transaction>;
   getBalance(): Promise<IBalance>;
   getAllTransactions(): Promise<Transaction[]>;

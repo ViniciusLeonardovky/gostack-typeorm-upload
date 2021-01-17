@@ -1,16 +1,20 @@
+import { injectable, inject } from 'tsyringe';
 import Transaction from '@modules/transactions/infra/typeorm/entities/Transaction';
 import {
   IBalance,
-  ITransactionRepository,
-} from '@modules/transactions/repositories/ITransactionRepository';
+  ITransactionsRepository,
+} from '@modules/transactions/repositories/ITransactionsRepository';
 
 interface IResponse {
   transactions: Transaction[];
   balance: IBalance;
 }
-
+@injectable()
 class ListTransactionsService {
-  constructor(private transactionsRepository: ITransactionRepository) {}
+  constructor(
+    @inject('TransactionsRepository')
+    private transactionsRepository: ITransactionsRepository,
+  ) {}
 
   public async execute(): Promise<IResponse> {
     const transactions = await this.transactionsRepository.getAllTransactions();

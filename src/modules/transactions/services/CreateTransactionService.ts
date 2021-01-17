@@ -1,7 +1,8 @@
 import AppError from '@shared/errors/AppError';
+import { injectable, inject } from 'tsyringe';
 
 import Transaction from '@modules/transactions/infra/typeorm/entities/Transaction';
-import { ITransactionRepository } from '@modules/transactions/repositories/ITransactionRepository';
+import { ITransactionsRepository } from '@modules/transactions/repositories/ITransactionsRepository';
 import { ICategoryTransactionsRepository } from '@modules/transactions/repositories/ICategoryTransactionsRepository';
 
 interface IRequest {
@@ -11,9 +12,13 @@ interface IRequest {
   category: string;
 }
 
+@injectable()
 class CreateTransactionService {
   constructor(
-    private transactionsRepository: ITransactionRepository,
+    @inject('TransactionsRepository')
+    private transactionsRepository: ITransactionsRepository,
+
+    @inject('CategoriesRepository')
     private categoriesRepository: ICategoryTransactionsRepository,
   ) {}
 
