@@ -5,7 +5,7 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export default class AlterCategoryFieldToTransactionId1589612059651
+export class AlterCategoryFieldToTransactionId1589612059651
   implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.addColumn(
