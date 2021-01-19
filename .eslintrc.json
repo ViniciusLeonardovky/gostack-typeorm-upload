@@ -22,6 +22,7 @@
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
     "no-underscore-dangle": "off",
+    "no-console": "off",
     "prettier/prettier": "error",
     "class-methods-use-this": "off",
     "import/prefer-default-export": "off",
