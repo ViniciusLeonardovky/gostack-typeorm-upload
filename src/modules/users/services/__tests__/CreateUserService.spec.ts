@@ -49,4 +49,27 @@ describe('User', () => {
     expect(user?.name).toBe('Nome maneiro');
     expect(user?.email).toBe('teste@teste.com');
   });
+
+  it('should not be able to create a new user when e-mail already registered', async () => {
+    await request(app).post('/users').send({
+      name: 'Nome maneiro',
+      email: 'teste@teste.com',
+      password: '123456',
+    });
+
+    const response = await request(app).post('/users').send({
+      name: 'Nome Legal',
+      email: 'teste@teste.com',
+      password: '123123',
+    });
+
+    const usersRepository = getRepository(User);
+
+    const users = await usersRepository.find({
+      where: { email: 'teste@teste.com' },
+    });
+
+    expect(response?.body.message).toBe('e-mail address already used');
+    expect(users).toHaveLength(1);
+  });
 });
