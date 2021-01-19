@@ -12,18 +12,18 @@ describe('User', () => {
   beforeAll(async () => {
     connection = await createConnection('test-connection');
 
+    await connection.query('DROP TABLE IF EXISTS users');
     await connection.query('DROP TABLE IF EXISTS transactions');
     await connection.query('DROP TABLE IF EXISTS categories');
-    await connection.query('DROP TABLE IF EXISTS users');
     await connection.query('DROP TABLE IF EXISTS migrations');
 
     await connection.runMigrations();
   });
 
   beforeEach(async () => {
+    await connection.query('DELETE FROM users');
     await connection.query('DELETE FROM transactions');
     await connection.query('DELETE FROM categories');
-    await connection.query('DELETE FROM users');
   });
 
   afterAll(async () => {
