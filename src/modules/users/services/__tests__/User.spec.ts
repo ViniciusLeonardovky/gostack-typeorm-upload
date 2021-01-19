@@ -72,4 +72,20 @@ describe('User', () => {
     expect(response?.body.message).toBe('e-mail address already used');
     expect(users).toHaveLength(1);
   });
+
+  it('should be able to authenticate a user', async () => {
+    await request(app).post('/users').send({
+      name: 'Nome maneiro',
+      email: 'teste@teste.com',
+      password: '123456',
+    });
+
+    const response = await request(app).post('/sessions').send({
+      email: 'teste@teste.com',
+      password: '123456',
+    });
+
+    expect(response.body.user.id).toBeTruthy();
+    expect(response.body.token).toBeTruthy();
+  });
 });
