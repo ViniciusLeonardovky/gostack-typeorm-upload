@@ -2,6 +2,7 @@ import request from 'supertest';
 import path from 'path';
 import { Connection, getRepository, getConnection } from 'typeorm';
 import createConnection from '@shared/infra/typeorm/index';
+import { v4 } from 'uuid';
 
 import { Transaction } from '@modules/transactions/infra/typeorm/entities/Transaction';
 import { Category } from '@modules/transactions/infra/typeorm/entities/Category';
@@ -195,6 +196,19 @@ describe('Transaction', () => {
 
     const transaction = await transactionsRepository.findOne(response.body.id);
 
+    expect(transaction).toBeFalsy();
+  });
+
+  it('should not be able to delete a transaction if not exists', async () => {
+    const transactionsRepository = getRepository(Transaction);
+
+    const fakeId = v4();
+
+    const response = await request(app).delete(`/transactions/${fakeId}`);
+
+    const transaction = await transactionsRepository.findOne(fakeId);
+
+    expect(response.body.message).toBe('transaction not found');
     expect(transaction).toBeFalsy();
   });
 
