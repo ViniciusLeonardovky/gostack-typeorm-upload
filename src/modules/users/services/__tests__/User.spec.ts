@@ -103,4 +103,19 @@ describe('User', () => {
 
     expect(response.body.message).toBe('Incorrect email/password combination');
   });
+
+  it('should not be able to authenticate a user with wrong password', async () => {
+    await request(app).post('/users').send({
+      name: 'Nome maneiro',
+      email: 'teste@teste.com',
+      password: '123456',
+    });
+
+    const response = await request(app).post('/sessions').send({
+      email: 'teste@teste.com',
+      password: 'senha_errada',
+    });
+
+    expect(response.body.message).toBe('Incorrect email/password combination');
+  });
 });
