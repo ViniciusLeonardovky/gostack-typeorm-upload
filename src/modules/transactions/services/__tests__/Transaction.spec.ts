@@ -253,4 +253,18 @@ describe('Transaction', () => {
       ]),
     );
   });
+
+  it('should not create categories that already exists', async () => {
+    const categoriesRepository = getRepository(Category);
+
+    const importCSV = path.resolve(__dirname, 'import_template2.csv');
+    const importCSV2 = path.resolve(__dirname, 'import_template2.csv');
+
+    await request(app).post('/transactions/import').attach('file', importCSV);
+    await request(app).post('/transactions/import').attach('file', importCSV2);
+
+    const categories = await categoriesRepository.find();
+
+    expect(categories).toHaveLength(2);
+  });
 });
