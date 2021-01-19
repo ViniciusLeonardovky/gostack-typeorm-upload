@@ -88,4 +88,19 @@ describe('User', () => {
     expect(response.body.user.id).toBeTruthy();
     expect(response.body.token).toBeTruthy();
   });
+
+  it('should not be able to authenticate a user with wrong e-mail', async () => {
+    await request(app).post('/users').send({
+      name: 'Nome maneiro',
+      email: 'teste@teste.com',
+      password: '123456',
+    });
+
+    const response = await request(app).post('/sessions').send({
+      email: 'email_errado@teste.com',
+      password: '123456',
+    });
+
+    expect(response.body.message).toBe('Incorrect email/password combination');
+  });
 });
