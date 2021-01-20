@@ -10,6 +10,7 @@ interface IRequest {
   value: number;
   type: 'income' | 'outcome';
   category: string;
+  user_id: string;
 }
 
 @injectable()
@@ -27,6 +28,7 @@ export class CreateTransactionService {
     value,
     type,
     category,
+    user_id,
   }: IRequest): Promise<Transaction> {
     const { total } = await this.transactionsRepository.getBalance();
 
@@ -47,6 +49,7 @@ export class CreateTransactionService {
       value,
       type,
       category_id: categoryExists.id,
+      user_id,
     });
 
     return transaction;

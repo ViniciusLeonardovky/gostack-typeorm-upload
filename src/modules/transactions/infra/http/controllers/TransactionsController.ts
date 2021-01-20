@@ -16,6 +16,7 @@ export class TransactionsController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     const { title, value, type, category } = request.body;
+    const user_id = request.user.id;
 
     const createTransaction = container.resolve(CreateTransactionService);
 
@@ -24,6 +25,7 @@ export class TransactionsController {
       value,
       type,
       category,
+      user_id,
     });
 
     return response.status(200).json(transaction);

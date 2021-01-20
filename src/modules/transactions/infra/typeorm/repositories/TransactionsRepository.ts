@@ -48,12 +48,14 @@ export class TransactionsRepository implements ITransactionsRepository {
     category_id,
     type,
     value,
+    user_id,
   }: ICreateTransactionDTO): Promise<Transaction> {
     const transaction = this.ormRepository.create({
       title,
       category_id,
       type,
       value,
+      user_id,
     });
 
     await this.ormRepository.save(transaction);
