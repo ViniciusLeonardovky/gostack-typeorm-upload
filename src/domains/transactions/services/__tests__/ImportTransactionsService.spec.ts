@@ -10,7 +10,7 @@ import { app } from '@shared/infra/http/app';
 
 let connection: Connection;
 
-describe('Transaction', () => {
+describe('Import Transactions', () => {
   beforeAll(async () => {
     connection = await createConnection('test-connection');
 
