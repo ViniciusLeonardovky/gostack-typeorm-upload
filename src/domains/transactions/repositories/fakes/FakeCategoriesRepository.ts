@@ -34,4 +34,16 @@ export class FakeCategoriesRepository
 
     return category;
   }
+
+  public async createMultipleCategories(
+    categories: string[],
+  ): Promise<Category[]> {
+    // todo for test
+    const a = categories;
+    a.map(b => {
+      return b.length;
+    });
+    const todo = {};
+    return todo as Category[];
+  }
 }

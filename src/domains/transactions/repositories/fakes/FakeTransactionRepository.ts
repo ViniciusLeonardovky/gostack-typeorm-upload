@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import { Transaction } from '@domains/transactions/infra/typeorm/entities/Transaction';
 import {
   ITransactionsRepository,
@@ -7,7 +8,7 @@ import { ICreateTransactionDTO } from '@domains/transactions/dtos/ICreateTransac
 import { IDeleteTransactionDTO } from '@domains/transactions/dtos/IDeleteTransactionDTO';
 import { IFindTransactionDTO } from '@domains/transactions/dtos/IFindTransactionDTO';
 import { IFindUserTransactionDTO } from '@domains/transactions/dtos/IFindUserTransactionDTO';
-import { v4 } from 'uuid';
+import { ICreateMultipleTransactionsDTO } from '@domains/transactions/dtos/ICreateMultipleTransactionsDTO';
 
 export class FakeTransactionsRepository implements ITransactionsRepository {
   private transactions: Transaction[] = [];
@@ -90,5 +91,27 @@ export class FakeTransactionsRepository implements ITransactionsRepository {
     const transaction = this.transactions.find(t => t.id === id);
 
     return transaction;
+  }
+
+  public async createMultipleTransactions(
+    transactions: ICreateMultipleTransactionsDTO,
+  ): Promise<Transaction[]> {
+    // const createdTransactions = new Transaction();
+
+    const createdTransactions = transactions.transactions.map(transaction => ({
+      title: transaction.title,
+      type: transaction.type,
+      value: transaction.value,
+      user_id: transaction.user_id,
+      category: transactions.categories.find(
+        category => category.title === transaction.category,
+      ),
+    }));
+
+    createdTransactions.map(t => {
+      return this.transactions.push(t as Transaction);
+    });
+
+    return createdTransactions as Transaction[];
   }
 }

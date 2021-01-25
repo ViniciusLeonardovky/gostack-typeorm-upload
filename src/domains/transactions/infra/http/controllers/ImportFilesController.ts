@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 
 import { ImportTransactionsService } from '@domains/transactions/services/ImportTransactionsService';
 
@@ -8,9 +9,9 @@ export class ImportFilesController {
       const { path } = request.file;
       const user_id = request.user.id;
 
-      const importTransactionsService = new ImportTransactionsService();
+      const importTransactions = container.resolve(ImportTransactionsService);
 
-      const transactions = await importTransactionsService.execute({
+      const transactions = await importTransactions.execute({
         filePath: path,
         user_id,
       });

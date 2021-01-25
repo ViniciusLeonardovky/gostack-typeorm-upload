@@ -3,6 +3,7 @@ import { ICreateTransactionDTO } from '@domains/transactions/dtos/ICreateTransac
 import { IDeleteTransactionDTO } from '@domains/transactions/dtos/IDeleteTransactionDTO';
 import { IFindTransactionDTO } from '@domains/transactions/dtos/IFindTransactionDTO';
 import { IFindUserTransactionDTO } from '@domains/transactions/dtos/IFindUserTransactionDTO';
+import { ICreateMultipleTransactionsDTO } from '@domains/transactions/dtos/ICreateMultipleTransactionsDTO';
 
 export interface IBalance {
   income: number;
@@ -16,4 +17,7 @@ export interface ITransactionsRepository {
   getAllTransactions(data: IFindUserTransactionDTO): Promise<Transaction[]>;
   deleteTransaction(data: IDeleteTransactionDTO): Promise<void>;
   findTransaction(data: IFindTransactionDTO): Promise<Transaction | undefined>;
+  createMultipleTransactions(
+    data: ICreateMultipleTransactionsDTO,
+  ): Promise<Transaction[]>;
 }

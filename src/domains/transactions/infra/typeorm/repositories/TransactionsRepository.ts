@@ -9,6 +9,7 @@ import { ICreateTransactionDTO } from '@domains/transactions/dtos/ICreateTransac
 import { IDeleteTransactionDTO } from '@domains/transactions/dtos/IDeleteTransactionDTO';
 import { IFindTransactionDTO } from '@domains/transactions/dtos/IFindTransactionDTO';
 import { IFindUserTransactionDTO } from '@domains/transactions/dtos/IFindUserTransactionDTO';
+import { ICreateMultipleTransactionsDTO } from '@domains/transactions/dtos/ICreateMultipleTransactionsDTO';
 
 export class TransactionsRepository implements ITransactionsRepository {
   private ormRepository: Repository<Transaction>;
@@ -84,5 +85,25 @@ export class TransactionsRepository implements ITransactionsRepository {
     const transaction = await this.ormRepository.findOne(id);
 
     return transaction;
+  }
+
+  public async createMultipleTransactions(
+    transactions: ICreateMultipleTransactionsDTO,
+  ): Promise<Transaction[]> {
+    const createdTransactions = this.ormRepository.create(
+      transactions.transactions.map(transaction => ({
+        title: transaction.title,
+        type: transaction.type,
+        value: transaction.value,
+        user_id: transaction.user_id,
+        category: transactions.categories.find(
+          category => category.title === transaction.category,
+        ),
+      })),
+    );
+
+    await this.ormRepository.save(createdTransactions);
+
+    return createdTransactions;
   }
 }

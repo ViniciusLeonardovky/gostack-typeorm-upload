@@ -3,6 +3,7 @@ import { ICreateCategoryDTO } from '@domains/transactions/dtos/ICreateCategoryDT
 
 export interface ICategoryTransactionsRepository {
   create(data: ICreateCategoryDTO): Promise<Category>;
+  createMultipleCategories(categories: string[]): Promise<Category[]>;
   findCategory(title: string): Promise<Category | undefined>;
   findCategories(categories: string[]): Promise<Category[]>;
 }

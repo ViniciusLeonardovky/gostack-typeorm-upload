@@ -35,4 +35,18 @@ export class CategoriesRepository implements ICategoryTransactionsRepository {
 
     return category;
   }
+
+  public async createMultipleCategories(
+    categories: string[],
+  ): Promise<Category[]> {
+    const newCategories = this.ormRepository.create(
+      categories.map((title: string) => ({
+        title,
+      })),
+    );
+
+    await this.ormRepository.save(newCategories);
+
+    return newCategories;
+  }
 }
