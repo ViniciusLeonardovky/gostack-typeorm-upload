@@ -53,8 +53,6 @@ export class ImportTransactionsService {
         cell.trim(),
       );
 
-      if (!title || !type || !value) return;
-
       categories.push(category);
 
       transactions.push({ title, type, value, category, user_id });
@@ -66,12 +64,12 @@ export class ImportTransactionsService {
       categories,
     );
 
-    const existentCategoriesTitles = existentCategories?.map(
+    const existentCategoriesTitles = existentCategories.map(
       (category: Category) => category.title,
     );
 
     const addCategoryTitles = categories
-      .filter(category => !existentCategoriesTitles?.includes(category))
+      .filter(category => !existentCategoriesTitles.includes(category))
       .filter((value, index, self) => self.indexOf(value) === index);
 
     const newCategories = await this.categoriesRepository.createMultipleCategories(
