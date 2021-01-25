@@ -117,8 +117,11 @@ describe('Transaction', () => {
     const transaction = await transactionsRepository.findOne({
       where: {
         title: 'March Salary',
+        user_id: authUser.body.user.id,
       },
     });
+
+    console.log('-> transaction: ', authUser.body.user.id);
 
     expect(transaction).toBeTruthy();
 

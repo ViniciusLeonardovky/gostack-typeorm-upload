@@ -30,7 +30,7 @@ export class CreateTransactionService {
     category,
     user_id,
   }: IRequest): Promise<Transaction> {
-    const { total } = await this.transactionsRepository.getBalance();
+    const { total } = await this.transactionsRepository.getBalance({ user_id });
 
     if (value > total && type === 'outcome') {
       throw new AppError('Limit of balance', 400);

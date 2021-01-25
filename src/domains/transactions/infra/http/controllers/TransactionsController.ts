@@ -8,8 +8,9 @@ import { ListTransactionsService } from '@domains/transactions/services/ListTran
 export class TransactionsController {
   public async index(request: Request, response: Response): Promise<Response> {
     const listTransactions = container.resolve(ListTransactionsService);
+    const user_id = request.user.id;
 
-    const transactions = await listTransactions.execute();
+    const transactions = await listTransactions.execute({ user_id });
 
     return response.status(200).json(transactions);
   }

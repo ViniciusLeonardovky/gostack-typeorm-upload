@@ -5,6 +5,9 @@ import {
   ITransactionsRepository,
 } from '@domains/transactions/repositories/ITransactionsRepository';
 
+interface IRequest {
+  user_id: string;
+}
 interface IResponse {
   transactions: Transaction[];
   balance: IBalance;
@@ -16,9 +19,11 @@ export class ListTransactionsService {
     private transactionsRepository: ITransactionsRepository,
   ) {}
 
-  public async execute(): Promise<IResponse> {
-    const transactions = await this.transactionsRepository.getAllTransactions();
-    const balance = await this.transactionsRepository.getBalance();
+  public async execute({ user_id }: IRequest): Promise<IResponse> {
+    const transactions = await this.transactionsRepository.getAllTransactions({
+      user_id,
+    });
+    const balance = await this.transactionsRepository.getBalance({ user_id });
 
     const responseTransactions = { transactions, balance };
 

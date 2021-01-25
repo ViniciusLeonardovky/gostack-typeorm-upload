@@ -2,6 +2,7 @@ import { Transaction } from '@domains/transactions/infra/typeorm/entities/Transa
 import { ICreateTransactionDTO } from '@domains/transactions/dtos/ICreateTransactionDTO';
 import { IDeleteTransactionDTO } from '@domains/transactions/dtos/IDeleteTransactionDTO';
 import { IFindTransactionDTO } from '@domains/transactions/dtos/IFindTransactionDTO';
+import { IFindUserTransactionDTO } from '@domains/transactions/dtos/IFindUserTransactionDTO';
 
 export interface IBalance {
   income: number;
@@ -11,8 +12,8 @@ export interface IBalance {
 
 export interface ITransactionsRepository {
   create(data: ICreateTransactionDTO): Promise<Transaction>;
-  getBalance(): Promise<IBalance>;
-  getAllTransactions(): Promise<Transaction[]>;
+  getBalance(data: IFindUserTransactionDTO): Promise<IBalance>;
+  getAllTransactions(data: IFindUserTransactionDTO): Promise<Transaction[]>;
   deleteTransaction(data: IDeleteTransactionDTO): Promise<void>;
   findTransaction(data: IFindTransactionDTO): Promise<Transaction | undefined>;
 }

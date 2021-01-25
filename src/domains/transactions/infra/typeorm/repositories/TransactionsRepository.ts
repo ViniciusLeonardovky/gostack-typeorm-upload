@@ -8,6 +8,7 @@ import {
 import { ICreateTransactionDTO } from '@domains/transactions/dtos/ICreateTransactionDTO';
 import { IDeleteTransactionDTO } from '@domains/transactions/dtos/IDeleteTransactionDTO';
 import { IFindTransactionDTO } from '@domains/transactions/dtos/IFindTransactionDTO';
+import { IFindUserTransactionDTO } from '@domains/transactions/dtos/IFindUserTransactionDTO';
 
 export class TransactionsRepository implements ITransactionsRepository {
   private ormRepository: Repository<Transaction>;
@@ -16,11 +17,13 @@ export class TransactionsRepository implements ITransactionsRepository {
     this.ormRepository = getRepository(Transaction);
   }
 
-  public async getBalance(): Promise<IBalance> {
+  public async getBalance({
+    user_id,
+  }: IFindUserTransactionDTO): Promise<IBalance> {
     let income = 0;
     let outcome = 0;
 
-    const values = await this.ormRepository.find();
+    const values = await this.ormRepository.find({ where: { user_id } });
 
     for (let i = 0; i < values.length; i += 1) {
       const transaction = values[i];
@@ -63,8 +66,10 @@ export class TransactionsRepository implements ITransactionsRepository {
     return transaction;
   }
 
-  public async getAllTransactions(): Promise<Transaction[]> {
-    const transactions = await this.ormRepository.find();
+  public async getAllTransactions({
+    user_id,
+  }: IFindUserTransactionDTO): Promise<Transaction[]> {
+    const transactions = await this.ormRepository.find({ where: { user_id } });
 
     return transactions;
   }

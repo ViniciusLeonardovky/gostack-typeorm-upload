@@ -10,10 +10,16 @@ interface ICSVTransaction {
   type: 'income' | 'outcome';
   value: number;
   category: string;
+  user_id: string;
+}
+
+interface IRequest {
+  filePath: string;
+  user_id: string;
 }
 
 export class ImportTransactionsService {
-  async execute(filePath: string): Promise<Transaction[]> {
+  async execute({ filePath, user_id }: IRequest): Promise<Transaction[]> {
     const transactionsRepository = getRepository(Transaction);
     const categoriesRepository = getRepository(Category);
 
@@ -40,7 +46,7 @@ export class ImportTransactionsService {
 
       categories.push(category);
 
-      transactions.push({ title, type, value, category });
+      transactions.push({ title, type, value, category, user_id });
     });
 
     await new Promise(resolve => parseCSV.on('end', resolve));
@@ -74,6 +80,7 @@ export class ImportTransactionsService {
         title: transaction.title,
         type: transaction.type,
         value: transaction.value,
+        user_id: transaction.user_id,
         category: finalCategories.find(
           category => category.title === transaction.category,
         ),
