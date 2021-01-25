@@ -2,6 +2,7 @@ import { IUsersRepository } from '@domains/users/repositories/IUsersRepository';
 import { ICreateUserDTO } from '@domains/users/dtos/ICreateUserDTO';
 
 import { User } from '@domains/users/infra/typeorm/entities/User';
+import { v4 } from 'uuid';
 
 export class FakeUsersRepository implements IUsersRepository {
   private users: User[] = [];
@@ -21,7 +22,7 @@ export class FakeUsersRepository implements IUsersRepository {
   public async create(userData: ICreateUserDTO): Promise<User> {
     const user = new User();
 
-    Object.assign(user, { id: Math.random().toString() }, userData);
+    Object.assign(user, { id: v4() }, userData);
 
     this.users.push(user);
 

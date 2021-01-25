@@ -121,8 +121,6 @@ describe('Transaction', () => {
       },
     });
 
-    console.log('-> transaction: ', authUser.body.user.id);
-
     expect(transaction).toBeTruthy();
 
     expect(response.body).toMatchObject(
