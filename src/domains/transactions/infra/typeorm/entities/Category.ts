@@ -7,7 +7,7 @@ import {
   OneToMany,
 } from 'typeorm';
 
-import { Transaction } from './Transaction';
+import { Transaction } from '@domains/transactions/infra/typeorm/entities/Transaction';
 
 @Entity('categories')
 export class Category {
