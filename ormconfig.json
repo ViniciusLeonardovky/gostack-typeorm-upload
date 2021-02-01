@@ -6,8 +6,8 @@
   "username": "postgres",
   "password": "docker",
   "database": "gofinances",
-  "entities": ["./src/domains/**/infra/typeorm/entities/*.ts"],
-  "migrations": ["./src/shared/infra/typeorm/migrations/*.ts"],
+  "entities": ["./dist/domains/**/infra/typeorm/entities/*.js"],
+  "migrations": ["./dist/shared/infra/typeorm/migrations/*.js"],
   "cli": {
     "migrationsDir": "./src/shared/infra/typeorm/migrations"
   }
