@@ -1,11 +1,11 @@
-{
+module.exports = {
   "name": "default",
   "type": "postgres",
-  "host": "localhost",
-  "port": 1234,
-  "username": "user",
-  "password": "password",
-  "database": "dbname",
+  "host": process.env.DB_HOST,
+  "port": process.env.DB_PORT,
+  "username": process.env.DB_USERNAME,
+  "password": process.env.DB_PASSWORD,
+  "database": process.env.DB_DATABASE,
   "entities": ["./src/domains/**/infra/typeorm/entities/*.ts"],
   "migrations": ["./src/shared/infra/typeorm/migrations/*.ts"],
   "cli": {
