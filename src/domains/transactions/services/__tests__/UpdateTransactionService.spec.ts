@@ -1,4 +1,3 @@
-// import { AppError } from '@shared/errors/AppError';
 import { FakeCategoriesRepository } from '@domains/transactions/repositories/fakes/FakeCategoriesRepository';
 import { FakeTransactionsRepository } from '@domains/transactions/repositories/fakes/FakeTransactionRepository';
 import { CreateTransactionService } from '@domains/transactions/services/CreateTransactionService';
