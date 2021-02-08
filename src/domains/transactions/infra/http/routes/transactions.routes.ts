@@ -20,6 +20,12 @@ transactionsRouter.post(
   transactionsController.create,
 );
 
+transactionsRouter.put(
+  '/:transaction_id',
+  ensureAuthenticated,
+  transactionsController.update,
+);
+
 transactionsRouter.delete(
   '/:id',
   ensureAuthenticated,

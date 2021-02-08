@@ -9,6 +9,7 @@ import { IDeleteTransactionDTO } from '@domains/transactions/dtos/IDeleteTransac
 import { IFindTransactionDTO } from '@domains/transactions/dtos/IFindTransactionDTO';
 import { IFindUserTransactionDTO } from '@domains/transactions/dtos/IFindUserTransactionDTO';
 import { ICreateMultipleTransactionsDTO } from '@domains/transactions/dtos/ICreateMultipleTransactionsDTO';
+import { IUpdateTransactionDTO } from '@domains/transactions/dtos/IUpdateTransactionDTO';
 
 export class FakeTransactionsRepository implements ITransactionsRepository {
   private transactions: Transaction[] = [];
@@ -113,5 +114,27 @@ export class FakeTransactionsRepository implements ITransactionsRepository {
     });
 
     return createdTransactions as Transaction[];
+  }
+
+  public async updateTransaction(
+    newDataTransaction: IUpdateTransactionDTO,
+  ): Promise<Transaction | undefined> {
+    const { title, transaction_id, value, type } = newDataTransaction;
+
+    const transaction = this.transactions.find(t => t.id === transaction_id);
+
+    if (!transaction) {
+      return undefined;
+    }
+
+    transaction.title = title;
+    transaction.value = value;
+    transaction.type = type;
+
+    const transactionUpdated = this.transactions.find(
+      t => t.id === transaction_id,
+    );
+
+    return transactionUpdated;
   }
 }

@@ -10,6 +10,7 @@ import { IDeleteTransactionDTO } from '@domains/transactions/dtos/IDeleteTransac
 import { IFindTransactionDTO } from '@domains/transactions/dtos/IFindTransactionDTO';
 import { IFindUserTransactionDTO } from '@domains/transactions/dtos/IFindUserTransactionDTO';
 import { ICreateMultipleTransactionsDTO } from '@domains/transactions/dtos/ICreateMultipleTransactionsDTO';
+import { IUpdateTransactionDTO } from '@domains/transactions/dtos/IUpdateTransactionDTO';
 
 export class TransactionsRepository implements ITransactionsRepository {
   private ormRepository: Repository<Transaction>;
@@ -105,5 +106,26 @@ export class TransactionsRepository implements ITransactionsRepository {
     await this.ormRepository.save(createdTransactions);
 
     return createdTransactions;
+  }
+
+  public async updateTransaction(
+    newDataTransaction: IUpdateTransactionDTO,
+  ): Promise<Transaction | undefined> {
+    const { title, transaction_id, type, value } = newDataTransaction;
+
+    await this.ormRepository.update(
+      {
+        id: transaction_id,
+      },
+      {
+        title,
+        type,
+        value,
+      },
+    );
+
+    const transaction = await this.ormRepository.findOne(transaction_id);
+
+    return transaction;
   }
 }

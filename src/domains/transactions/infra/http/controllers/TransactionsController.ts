@@ -4,6 +4,7 @@ import { container } from 'tsyringe';
 import { CreateTransactionService } from '@domains/transactions/services/CreateTransactionService';
 import { DeleteTransactionService } from '@domains/transactions/services/DeleteTransactionService';
 import { ListTransactionsService } from '@domains/transactions/services/ListTransactionsService';
+import { UpdateTransactionService } from '@domains/transactions/services/UpdateTransactionService';
 
 export class TransactionsController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -27,6 +28,22 @@ export class TransactionsController {
       type,
       category,
       user_id,
+    });
+
+    return response.status(200).json(transaction);
+  }
+
+  public async update(request: Request, response: Response): Promise<Response> {
+    const { transaction_id } = request.params;
+    const { title, value, type } = request.body;
+
+    const updateTransaction = container.resolve(UpdateTransactionService);
+
+    const transaction = await updateTransaction.execute({
+      transaction_id,
+      title,
+      value,
+      type,
     });
 
     return response.status(200).json(transaction);
