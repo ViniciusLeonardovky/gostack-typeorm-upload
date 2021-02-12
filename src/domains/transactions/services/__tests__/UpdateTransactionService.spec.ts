@@ -1,3 +1,4 @@
+import { AppError } from '@shared/errors/AppError';
 import { FakeCategoriesRepository } from '@domains/transactions/repositories/fakes/FakeCategoriesRepository';
 import { FakeTransactionsRepository } from '@domains/transactions/repositories/fakes/FakeTransactionRepository';
 import { CreateTransactionService } from '@domains/transactions/services/CreateTransactionService';
@@ -42,5 +43,24 @@ describe('Update Transaction', () => {
     expect(transactionUpdated.title).toBe('atualizado');
     expect(transactionUpdated.type).toBe('outcome');
     expect(transactionUpdated.value).toBe(22);
+  });
+
+  it('should not update a transaction when not found', async () => {
+    const transaction = await createTransaction.execute({
+      title: 'Aposta',
+      category: 'Others',
+      type: 'income',
+      value: 100,
+      user_id: '123123',
+    });
+
+    await expect(
+      updateTransaction.execute({
+        title: 'atualizado',
+        type: 'outcome',
+        value: 22,
+        transaction_id: `${transaction.id}fakeId`,
+      }),
+    ).rejects.toBeInstanceOf(AppError);
   });
 });
