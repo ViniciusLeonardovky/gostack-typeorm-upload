@@ -74,9 +74,6 @@ export class TransactionsRepository implements ITransactionsRepository {
     page,
   }: IFindUserTransactionDTO): Promise<IGetAllTransactionsResponse> {
     if (!page) {
-      const totalTransactions = await this.ormRepository.count({
-        where: { user_id },
-      });
       const transactions = await this.ormRepository.find({
         where: { user_id },
         order: { created_at: 'DESC' },
@@ -84,14 +81,16 @@ export class TransactionsRepository implements ITransactionsRepository {
 
       return {
         transactions,
-        totalTransactions,
+        totalTransactions: transactions.length,
       };
     }
 
     const transactionsPerPage = 10;
+
     const totalTransactions = await this.ormRepository.count({
       where: { user_id },
     });
+
     const transactions = await this.ormRepository.find({
       where: { user_id },
       skip: (page - 1) * transactionsPerPage,
