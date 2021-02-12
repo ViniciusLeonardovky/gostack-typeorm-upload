@@ -23,7 +23,71 @@ describe('List Transaction', () => {
 
   it('should list user transactions', async () => {
     await createTransaction.execute({
-      title: 'Aposta',
+      title: 'Aposta 1',
+      category: 'Others',
+      type: 'income',
+      value: 100,
+      user_id: '123123',
+    });
+
+    await createTransaction.execute({
+      title: 'Aposta 2',
+      category: 'Others',
+      type: 'income',
+      value: 100,
+      user_id: '123123',
+    });
+
+    await createTransaction.execute({
+      title: 'Aposta 3',
+      category: 'Others',
+      type: 'income',
+      value: 100,
+      user_id: '123123',
+    });
+
+    await createTransaction.execute({
+      title: 'Aposta 4',
+      category: 'Others',
+      type: 'income',
+      value: 100,
+      user_id: '123123',
+    });
+
+    await createTransaction.execute({
+      title: 'Aposta 5',
+      category: 'Others',
+      type: 'income',
+      value: 100,
+      user_id: '123123',
+    });
+
+    await createTransaction.execute({
+      title: 'Aposta 6',
+      category: 'Others',
+      type: 'income',
+      value: 100,
+      user_id: '123123',
+    });
+
+    await createTransaction.execute({
+      title: 'Aposta 7',
+      category: 'Others',
+      type: 'income',
+      value: 100,
+      user_id: '123123',
+    });
+
+    await createTransaction.execute({
+      title: 'Aposta 8',
+      category: 'Others',
+      type: 'income',
+      value: 100,
+      user_id: '123123',
+    });
+
+    await createTransaction.execute({
+      title: 'Aposta 9',
       category: 'Others',
       type: 'income',
       value: 100,
@@ -51,7 +115,8 @@ describe('List Transaction', () => {
       page: 1,
     });
 
-    expect(transactions.transactions).toHaveLength(3);
-    expect(transactions.balance.total).toBe(50);
+    expect(transactions.transactions).toHaveLength(10);
+    expect(transactions.totalTransactions).toBe(11);
+    expect(transactions.balance.total).toBe(850);
   });
 });

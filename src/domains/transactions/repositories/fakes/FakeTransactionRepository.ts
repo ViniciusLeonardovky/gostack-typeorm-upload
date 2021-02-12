@@ -70,13 +70,17 @@ export class FakeTransactionsRepository implements ITransactionsRepository {
   public async getAllTransactions({
     user_id,
   }: IFindUserTransactionDTO): Promise<IGetAllTransactionsResponse> {
-    const transactions = this.transactions.filter(
+    const transactions = this.transactions
+      .filter(transaction => transaction.user_id === user_id)
+      .slice(-10);
+
+    const totalTransactions = this.transactions.filter(
       transaction => transaction.user_id === user_id,
-    );
+    ).length;
 
     return {
       transactions,
-      totalTransactions: transactions.length,
+      totalTransactions,
     };
   }
 
