@@ -2,6 +2,7 @@ import { v4 } from 'uuid';
 import { Transaction } from '@domains/transactions/infra/typeorm/entities/Transaction';
 import {
   ITransactionsRepository,
+  IGetAllTransactionsResponse,
   IBalance,
 } from '@domains/transactions/repositories/ITransactionsRepository';
 import { ICreateTransactionDTO } from '@domains/transactions/dtos/ICreateTransactionDTO';
@@ -68,12 +69,15 @@ export class FakeTransactionsRepository implements ITransactionsRepository {
 
   public async getAllTransactions({
     user_id,
-  }: IFindUserTransactionDTO): Promise<Transaction[]> {
+  }: IFindUserTransactionDTO): Promise<IGetAllTransactionsResponse> {
     const transactions = this.transactions.filter(
       transaction => transaction.user_id === user_id,
     );
 
-    return transactions;
+    return {
+      transactions,
+      totalTransactions: transactions.length,
+    };
   }
 
   public async deleteTransaction({ id }: IDeleteTransactionDTO): Promise<void> {

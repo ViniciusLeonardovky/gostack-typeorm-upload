@@ -12,10 +12,17 @@ export interface IBalance {
   total: number;
 }
 
+export interface IGetAllTransactionsResponse {
+  transactions: Transaction[];
+  totalTransactions: number;
+}
+
 export interface ITransactionsRepository {
   create(data: ICreateTransactionDTO): Promise<Transaction>;
   getBalance(data: IFindUserTransactionDTO): Promise<IBalance>;
-  getAllTransactions(data: IFindUserTransactionDTO): Promise<Transaction[]>;
+  getAllTransactions(
+    data: IFindUserTransactionDTO,
+  ): Promise<IGetAllTransactionsResponse>;
   deleteTransaction(data: IDeleteTransactionDTO): Promise<void>;
   findTransaction(data: IFindTransactionDTO): Promise<Transaction | undefined>;
   createMultipleTransactions(

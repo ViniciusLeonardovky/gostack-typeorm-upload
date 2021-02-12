@@ -46,7 +46,10 @@ describe('List Transaction', () => {
       user_id: '123123',
     });
 
-    const transactions = await listTransactions.execute({ user_id: '123123' });
+    const transactions = await listTransactions.execute({
+      user_id: '123123',
+      page: 1,
+    });
 
     expect(transactions.transactions).toHaveLength(3);
     expect(transactions.balance.total).toBe(50);

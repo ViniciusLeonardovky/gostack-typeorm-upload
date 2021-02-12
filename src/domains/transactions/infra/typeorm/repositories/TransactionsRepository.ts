@@ -3,6 +3,7 @@ import { getRepository, Repository } from 'typeorm';
 import { Transaction } from '@domains/transactions/infra/typeorm/entities/Transaction';
 import {
   ITransactionsRepository,
+  IGetAllTransactionsResponse,
   IBalance,
 } from '@domains/transactions/repositories/ITransactionsRepository';
 import { ICreateTransactionDTO } from '@domains/transactions/dtos/ICreateTransactionDTO';
@@ -70,10 +71,38 @@ export class TransactionsRepository implements ITransactionsRepository {
 
   public async getAllTransactions({
     user_id,
-  }: IFindUserTransactionDTO): Promise<Transaction[]> {
-    const transactions = await this.ormRepository.find({ where: { user_id } });
+    page,
+  }: IFindUserTransactionDTO): Promise<IGetAllTransactionsResponse> {
+    if (!page) {
+      const totalTransactions = await this.ormRepository.count({
+        where: { user_id },
+      });
+      const transactions = await this.ormRepository.find({
+        where: { user_id },
+        order: { created_at: 'DESC' },
+      });
 
-    return transactions;
+      return {
+        transactions,
+        totalTransactions,
+      };
+    }
+
+    const transactionsPerPage = 10;
+    const totalTransactions = await this.ormRepository.count({
+      where: { user_id },
+    });
+    const transactions = await this.ormRepository.find({
+      where: { user_id },
+      skip: (page - 1) * transactionsPerPage,
+      take: transactionsPerPage,
+      order: { created_at: 'DESC' },
+    });
+
+    return {
+      transactions,
+      totalTransactions,
+    };
   }
 
   public async deleteTransaction({ id }: IDeleteTransactionDTO): Promise<void> {
