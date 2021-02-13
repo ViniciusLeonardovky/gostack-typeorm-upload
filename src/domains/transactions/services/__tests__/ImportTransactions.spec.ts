@@ -1,18 +1,39 @@
 import request from 'supertest';
 import path from 'path';
-import { Connection, getRepository, getConnection } from 'typeorm';
-import createConnection from '@domains/transactions/repositories/fakes/createConnectionTypeORM';
+import {
+  Connection,
+  getRepository,
+  getConnection,
+  getConnectionOptions,
+  createConnection,
+} from 'typeorm';
 
 import { Transaction } from '@domains/transactions/infra/typeorm/entities/Transaction';
 import { Category } from '@domains/transactions/infra/typeorm/entities/Category';
 
 import { app } from '@shared/infra/http/app';
 
+const createConnectionDB = async (name = 'default'): Promise<Connection> => {
+  const defaultOptions = await getConnectionOptions();
+
+  return createConnection(
+    Object.assign(defaultOptions, {
+      name,
+      entities: ['./src/domains/**/infra/typeorm/entities/*.ts'],
+      migrations: ['./src/shared/infra/typeorm/migrations/*.ts'],
+      cli: {
+        migrationsDir: './src/shared/infra/typeorm/migrations',
+      },
+      database: process.env.DB_DATABASE_TEST,
+    }),
+  );
+};
+
 let connection: Connection;
 
 describe('Transaction', () => {
   beforeAll(async () => {
-    connection = await createConnection('test-connection');
+    connection = await createConnectionDB('test-connection');
 
     await connection.query('DROP TABLE IF EXISTS migrations');
     await connection.query('DROP TABLE IF EXISTS transactions');
