@@ -5,7 +5,6 @@ build/
 temp/
 coverage/
 
-ormconfig.js
 tmp/*
 !tmp/.gitkeep
 .env
