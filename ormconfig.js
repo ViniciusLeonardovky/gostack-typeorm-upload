@@ -10,5 +10,11 @@ module.exports = {
   "migrations": process.env.NODE_ENV === 'dev' ? ["./src/shared/infra/typeorm/migrations/*.ts"] : ["./dist/shared/infra/typeorm/migrations/*.js"],
   "cli": {
     "migrationsDir": "./src/shared/infra/typeorm/migrations"
+  },
+  "ssl": true,
+  "extra": {
+    "ssl": {
+      "rejectUnauthorized": false
+    }
   }
 }
