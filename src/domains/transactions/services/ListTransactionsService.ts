@@ -8,6 +8,7 @@ import {
 interface IRequest {
   user_id: string;
   page: number;
+  limitPerPage: number;
 }
 interface IResponse {
   transactions: Transaction[];
@@ -21,10 +22,15 @@ export class ListTransactionsService {
     private transactionsRepository: ITransactionsRepository,
   ) {}
 
-  public async execute({ user_id, page }: IRequest): Promise<IResponse> {
+  public async execute({
+    user_id,
+    page,
+    limitPerPage,
+  }: IRequest): Promise<IResponse> {
     const transactions = await this.transactionsRepository.getAllTransactions({
       user_id,
       page,
+      limitPerPage,
     });
 
     const balance = await this.transactionsRepository.getBalance({ user_id });

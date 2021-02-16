@@ -69,10 +69,11 @@ export class FakeTransactionsRepository implements ITransactionsRepository {
 
   public async getAllTransactions({
     user_id,
+    limitPerPage,
   }: IFindUserTransactionDTO): Promise<IGetAllTransactionsResponse> {
     const transactions = this.transactions
       .filter(transaction => transaction.user_id === user_id)
-      .slice(-10);
+      .slice(-Number(limitPerPage));
 
     const totalTransactions = this.transactions.filter(
       transaction => transaction.user_id === user_id,

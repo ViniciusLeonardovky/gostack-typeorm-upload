@@ -113,9 +113,10 @@ describe('List Transaction', () => {
     const transactions = await listTransactions.execute({
       user_id: '123123',
       page: 1,
+      limitPerPage: 9,
     });
 
-    expect(transactions.transactions).toHaveLength(10);
+    expect(transactions.transactions).toHaveLength(9);
     expect(transactions.totalTransactions).toBe(11);
     expect(transactions.balance.total).toBe(850);
   });

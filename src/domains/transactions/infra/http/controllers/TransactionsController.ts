@@ -10,11 +10,12 @@ export class TransactionsController {
   public async index(request: Request, response: Response): Promise<Response> {
     const listTransactions = container.resolve(ListTransactionsService);
     const user_id = request.user.id;
-    const { page } = request.query;
+    const { page, limit } = request.query;
 
     const transactions = await listTransactions.execute({
       user_id,
       page: Number(page),
+      limitPerPage: Number(limit),
     });
 
     return response.status(200).json(transactions);

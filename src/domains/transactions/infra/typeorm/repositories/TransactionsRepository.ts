@@ -72,6 +72,7 @@ export class TransactionsRepository implements ITransactionsRepository {
   public async getAllTransactions({
     user_id,
     page,
+    limitPerPage,
   }: IFindUserTransactionDTO): Promise<IGetAllTransactionsResponse> {
     if (!page) {
       const transactions = await this.ormRepository.find({
@@ -85,7 +86,7 @@ export class TransactionsRepository implements ITransactionsRepository {
       };
     }
 
-    const transactionsPerPage = 10;
+    const transactionsPerPage = limitPerPage as number;
 
     const totalTransactions = await this.ormRepository.count({
       where: { user_id },
